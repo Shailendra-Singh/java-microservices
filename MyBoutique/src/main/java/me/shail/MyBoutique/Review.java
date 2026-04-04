@@ -15,7 +15,8 @@ import lombok.NoArgsConstructor;
 @EqualsAndHashCode(callSuper = false)
 @Entity
 @Table(name = "review")
-public class Review extends AbstractEntity{
+public class Review extends AbstractEntity {
+
     @NotNull
     @Column(name = "title", nullable = false)
     private String title;

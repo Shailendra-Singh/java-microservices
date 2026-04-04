@@ -14,7 +14,7 @@ public class MyBoutiqueApplication {
 	}
 
 	@GetMapping("/")
-    public String welcome() {
-        return "<h1>Java Microservices Practice</h1><p>The service is up and running on Java 25!</p>";
-    }
+	public String welcome() {
+		return "<h1>Java Microservices Practice</h1><p>The service is up and running on Java 25!</p>";
+	}
 }

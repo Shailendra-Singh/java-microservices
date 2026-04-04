@@ -19,7 +19,8 @@ import lombok.NoArgsConstructor;
 @EqualsAndHashCode(callSuper = false)
 @Entity
 @Table(name = "payment")
-public class Payment {
+public class Payment extends AbstractEntity {
+
     @Column(name = "paypal_payment_id")
     private String paypalPaymentId;
 

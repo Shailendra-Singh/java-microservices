@@ -19,7 +19,7 @@ import lombok.NoArgsConstructor;
 @EqualsAndHashCode(callSuper = false)
 @Entity
 @Table(name = "customer")
-public class Customer extends AbstractEntity{
+public class Customer extends AbstractEntity {
     @Column(name = "firstname")
     private String firstName;
 
@@ -35,4 +35,7 @@ public class Customer extends AbstractEntity{
     @OneToMany(mappedBy = "customer")
     @JsonIgnore
     private Set<Cart> carts;
+
+    @Column(name = "enabled")
+    private Boolean enabled;
 }

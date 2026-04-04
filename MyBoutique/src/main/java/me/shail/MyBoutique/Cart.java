@@ -19,8 +19,8 @@ import lombok.NoArgsConstructor;
 @EqualsAndHashCode(callSuper = false)
 @Entity
 @Table(name = "cart")
-public class Cart extends AbstractEntity{
-    private static final long serialVersionUID =  1L;
+public class Cart extends AbstractEntity {
+    private static final long serialVersionUID = 1L;
 
     @OneToOne
     @JoinColumn(unique = true)
@@ -33,7 +33,7 @@ public class Cart extends AbstractEntity{
     @Enumerated(EnumType.STRING)
     private CartStatus status;
 
-    public Cart(Customer customer){
+    public Cart(Customer customer) {
         this.customer = customer;
         this.status = CartStatus.NEW;
     }

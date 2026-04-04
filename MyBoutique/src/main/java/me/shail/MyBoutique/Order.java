@@ -27,7 +27,7 @@ import lombok.NoArgsConstructor;
 @EqualsAndHashCode(callSuper = false)
 @Entity
 @Table(name = "orders")
-public class Order extends AbstractEntity{
+public class Order extends AbstractEntity {
     @NotNull
     @Column(name = "total_price", precision = 10, scale = 2, nullable = false)
     private BigDecimal totalPrice;

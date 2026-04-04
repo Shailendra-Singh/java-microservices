@@ -1,4 +1,3 @@
-# java-microservices
 # Java Microservices Practice
 
 This repository is a collection of tiny Spring Boot projects designed to practice microservices patterns, inter-service communication, and cloud-native development.

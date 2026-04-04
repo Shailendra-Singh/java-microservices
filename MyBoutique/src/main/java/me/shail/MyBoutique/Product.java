@@ -6,6 +6,8 @@ import java.util.Set;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.Table;
@@ -21,7 +23,7 @@ import lombok.NoArgsConstructor;
 @EqualsAndHashCode(callSuper = false)
 @Entity
 @Table(name = "product")
-public class Product extends AbstractEntity{
+public class Product extends AbstractEntity {
     @NotNull
     @Column(name = "name", nullable = false)
     private String name;
@@ -33,6 +35,14 @@ public class Product extends AbstractEntity{
     @NotNull
     @Column(name = "price", precision = 10, scale = 2, nullable = false)
     private BigDecimal price;
+
+    @NotNull
+    @Column(name = "quantity")
+    private Integer quantity;
+
+    @NotNull
+    @Enumerated(EnumType.STRING)
+    private ProductStatus status;
 
     @Column(name = "sales_counter")
     private Integer salesCounter;
