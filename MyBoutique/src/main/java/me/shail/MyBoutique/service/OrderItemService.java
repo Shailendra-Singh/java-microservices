@@ -40,15 +40,15 @@ public class OrderItemService {
 
     public OrderItemDto create(OrderItemDto orderItemDto) {
         log.debug("Request to create OrderItemDto: {}", orderItemDto);
-        Order order = this.orderRepository.findById(orderItemDto.getOrderId())
+        Order order = this.orderRepository.findById(orderItemDto.orderId())
                 .orElseThrow(() -> new IllegalStateException("The Order does not exist"));
 
-        Product product = this.productRepository.findById(orderItemDto.getProductId())
+        Product product = this.productRepository.findById(orderItemDto.productId())
                 .orElseThrow(() -> new IllegalStateException("The Product does not exist"));
 
         return mapToDto(this.orderItemRepository.save(
                 new OrderItem(
-                        orderItemDto.getQuantity(),
+                        orderItemDto.quantity(),
                         product,
                         order)));
     }

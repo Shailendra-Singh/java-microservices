@@ -39,14 +39,14 @@ public class ProductService {
         log.debug("Request to create Product: {}", productDto);
         return mapToDto(this.productRepository.save(
                 new Product(
-                        productDto.getName(),
-                        productDto.getDescription(),
-                        productDto.getPrice(),
-                        productDto.getQuantity(),
-                        ProductStatus.valueOf(productDto.getStatus()),
-                        productDto.getSalesCounter(),
+                        productDto.name(),
+                        productDto.description(),
+                        productDto.price(),
+                        productDto.quantity(),
+                        ProductStatus.valueOf(productDto.status()),
+                        productDto.salesCounter(),
                         Collections.emptySet(),
-                        this.categoryRepository.findById(productDto.getCategory().getId()).orElse(null))));
+                        this.categoryRepository.findById(productDto.category().id()).orElse(null))));
     }
 
     public void delete(Long id) {
