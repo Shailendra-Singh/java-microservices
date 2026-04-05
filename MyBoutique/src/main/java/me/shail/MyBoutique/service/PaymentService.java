@@ -35,13 +35,13 @@ public class PaymentService {
 
     public PaymentDto create(PaymentDto paymentDto) {
         log.debug("Request to create Payment: {}", paymentDto);
-        Order order = this.orderRepository.findById(paymentDto.getOrderId())
+        Order order = this.orderRepository.findById(paymentDto.orderId())
                 .orElseThrow(() -> new IllegalStateException("The Order does not exist"));
 
         return mapToDto(this.paymentRepository.save(
                 new Payment(
-                        paymentDto.getPaypalPaymentId(),
-                        PaymentStatus.valueOf(paymentDto.getStatus()),
+                        paymentDto.paypalPaymentId(),
+                        PaymentStatus.valueOf(paymentDto.status()),
                         order)));
     }
 

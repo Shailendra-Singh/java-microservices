@@ -25,10 +25,10 @@ public class CustomerService {
         return mapToDto(
                 this.customerRepository.save(
                         new Customer(
-                                customerDto.getFirstName(),
-                                customerDto.getLastName(),
-                                customerDto.getEmail(),
-                                customerDto.getTelephone(),
+                                customerDto.firstName(),
+                                customerDto.lastName(),
+                                customerDto.email(),
+                                customerDto.telephone(),
                                 Collections.emptySet(),
                                 Boolean.TRUE)));
     }

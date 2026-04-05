@@ -1,13 +1,8 @@
 package me.shail.MyBoutique.dto;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-
-@Data
-@AllArgsConstructor
-public class CartDto {
-    private Long id;
-    private Long orderId;
-    private CustomerDto customerDto;
-    private String status;
+public record CartDto(
+        Long id,
+        Long orderId,
+        CustomerDto customerDto,
+        String status) {
 }

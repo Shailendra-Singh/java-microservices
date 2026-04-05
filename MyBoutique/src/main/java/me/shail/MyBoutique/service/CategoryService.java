@@ -39,7 +39,7 @@ public class CategoryService {
     public CategoryDto create(CategoryDto categoryDto) {
         log.debug("Request to create Category: {}", categoryDto);
         return mapToDto(this.categoryRepository.save(
-                new Category(categoryDto.getName(), categoryDto.getDescription(), Collections.emptySet())));
+                new Category(categoryDto.name(), categoryDto.description(), Collections.emptySet())));
     }
 
     public void delete(Long id) {

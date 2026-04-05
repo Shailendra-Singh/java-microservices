@@ -34,9 +34,9 @@ public class ReviewService {
         log.debug("Request to create Review: {}", reviewDto);
         return mapToDto(this.reviewRepository.save(
                 new Review(
-                        reviewDto.getTitle(),
-                        reviewDto.getDescription(),
-                        reviewDto.getRating())));
+                        reviewDto.title(),
+                        reviewDto.description(),
+                        reviewDto.rating())));
     }
 
     public void delete(Long id) {
