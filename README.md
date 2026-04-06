@@ -4,7 +4,7 @@ This repository is a collection of tiny Spring Boot projects designed to practic
 
 ## 🚀 Projects
 * **my-boutique**: Basic Spring Boot setup with a REST endpoint.
-* *(Future)* **inventory-service**: Practicing CRUD and database integration.
+* *(Future)* **microservices**: Practicing microservices patterns.
 
 ## 🛠 Tech Stack
 * **Language:** Java 25+
@@ -21,3 +21,6 @@ This repository is a collection of tiny Spring Boot projects designed to practic
 - [ ] Implement gRPC communication between two services.
 - [ ] Integrate Azure Service Bus for async messaging.
 - [ ] Containerize services using multi-stage builds.
+
+## 📚 Reference Books
+Nebrass Lamouchi - Playing with Java Microservices on Kubernetes and OpenShift
