@@ -7,7 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import me.shail.MyBoutique.dto.PaymentDto;
+import me.shail.MyBoutique.common.dto.PaymentDto;
 import me.shail.MyBoutique.model.Order;
 import me.shail.MyBoutique.model.Payment;
 import me.shail.MyBoutique.model.PaymentStatus;

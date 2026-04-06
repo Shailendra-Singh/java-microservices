@@ -1,6 +1,6 @@
 package me.shail.MyBoutique.service;
 
-import me.shail.MyBoutique.dto.AddressDto;
+import me.shail.MyBoutique.common.dto.AddressDto;
 import me.shail.MyBoutique.model.Address;
 
 public class AddressService {

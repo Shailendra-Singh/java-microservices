@@ -1,4 +1,4 @@
-package me.shail.MyBoutique.common;
+package me.shail.MyBoutique.common.domain;
 
 import java.io.Serializable;
 import java.time.Instant;

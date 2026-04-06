@@ -7,12 +7,13 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import static me.shail.MyBoutique.controller.Web.API;
+
+import static me.shail.MyBoutique.common.utils.Web.API;
 
 import java.util.List;
 
 import lombok.RequiredArgsConstructor;
-import me.shail.MyBoutique.dto.PaymentDto;
+import me.shail.MyBoutique.common.dto.PaymentDto;
 import me.shail.MyBoutique.service.PaymentService;
 
 @RequiredArgsConstructor

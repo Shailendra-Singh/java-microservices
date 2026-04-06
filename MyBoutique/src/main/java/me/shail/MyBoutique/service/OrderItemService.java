@@ -7,7 +7,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import me.shail.MyBoutique.dto.OrderItemDto;
+import me.shail.MyBoutique.common.dto.OrderItemDto;
 import me.shail.MyBoutique.model.Order;
 import me.shail.MyBoutique.model.OrderItem;
 import me.shail.MyBoutique.model.Product;

@@ -8,7 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import me.shail.MyBoutique.dto.CartDto;
+import me.shail.MyBoutique.common.dto.CartDto;
 import me.shail.MyBoutique.model.Cart;
 import me.shail.MyBoutique.model.CartStatus;
 import me.shail.MyBoutique.model.Customer;

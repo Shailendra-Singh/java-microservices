@@ -9,7 +9,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import me.shail.MyBoutique.dto.CategoryDto;
+import me.shail.MyBoutique.common.dto.CategoryDto;
 import me.shail.MyBoutique.model.Category;
 import me.shail.MyBoutique.repository.CategoryRepository;
 

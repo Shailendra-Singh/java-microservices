@@ -12,7 +12,7 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-import me.shail.MyBoutique.common.AbstractEntity;
+import me.shail.MyBoutique.common.domain.AbstractEntity;
 
 @Data
 @NoArgsConstructor

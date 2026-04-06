@@ -1,6 +1,6 @@
 package me.shail.MyBoutique.controller;
 
-import static me.shail.MyBoutique.controller.Web.API;
+import static me.shail.MyBoutique.common.utils.Web.API;
 
 import java.util.List;
 
@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import lombok.RequiredArgsConstructor;
-import me.shail.MyBoutique.dto.ReviewDto;
+import me.shail.MyBoutique.common.dto.ReviewDto;
 import me.shail.MyBoutique.service.ReviewService;
 
 @RequiredArgsConstructor
