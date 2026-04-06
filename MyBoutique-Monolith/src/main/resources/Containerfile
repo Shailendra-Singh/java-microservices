@@ -1,0 +1,2 @@
+FROM registry.fedoraproject.org/f33/postgresql
+# podman run -d --env-file ~/postgres.env -p 5432:5432 --name postgres registry.fedoraproject.org/f33/postgresql
