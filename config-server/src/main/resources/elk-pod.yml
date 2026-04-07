@@ -1,0 +1,56 @@
+# Save the output of this file and use kubectl create -f to import
+# it into Kubernetes.
+#
+# Created with podman-5.8.1
+apiVersion: v1
+kind: Pod
+metadata:
+  annotations:
+    bind-mount-options: ./configurations/logstash.conf:Z
+    io.kubernetes.cri-o.SandboxID/elasticsearch: c859be4f606d6435bcee048b1e54e7318b5f2f9d066d20334a3188648cff6665
+    io.kubernetes.cri-o.SandboxID/kibana: c859be4f606d6435bcee048b1e54e7318b5f2f9d066d20334a3188648cff6665
+    io.kubernetes.cri-o.SandboxID/logstash: c859be4f606d6435bcee048b1e54e7318b5f2f9d066d20334a3188648cff6665
+  creationTimestamp: "2026-04-07T09:26:24Z"
+  labels:
+    app: elk-stack
+  name: elk-stack
+spec:
+  containers:
+  - args:
+    - eswrapper
+    env:
+    - name: discovery.type
+      value: single-node
+    - name: ES_JAVA_OPTS
+      value: -Xms512m -Xmx512m
+    - name: xpack.security.enabled
+      value: "false"
+    image: docker.elastic.co/elasticsearch/elasticsearch:9.3.2
+    name: elasticsearch
+    ports:
+    - containerPort: 5044
+      hostPort: 5044
+    - containerPort: 5601
+      hostPort: 5601
+    - containerPort: 9200
+      hostPort: 9200
+    securityContext: {}
+  - args:
+    - /usr/local/bin/kibana-docker
+    image: docker.elastic.co/kibana/kibana:9.3.2
+    name: kibana
+    securityContext:
+      runAsNonRoot: true
+  - image: docker.elastic.co/logstash/logstash:9.3.2
+    name: logstash
+    securityContext:
+      runAsNonRoot: true
+    volumeMounts:
+    - mountPath: /usr/share/logstash/pipeline/logstash.conf
+      name: logstash.conf-host-0
+  volumes:
+  - hostPath:
+      path: ./configurations/logstash.conf
+      type: File
+    name: logstash.conf-host-0
+
