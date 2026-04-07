@@ -1,0 +1,40 @@
+server:
+  port: 8222
+
+springdoc:
+  swagger-ui:
+    urls:
+      - name: Order Service
+        url: /api/orders/v3/api-docs
+      - name: Product Service
+        url: /api/products/v3/api-docs
+      - name: Customer Service
+        url: /api/customer/v3/api-docs
+    # Ensures the UI is accessible at /swagger-ui.html
+    path: /swagger-ui.html
+
+spring:
+  cloud:
+    gateway:
+      routes: 
+        # ORDER
+        - id: order-service
+          uri: lb://MYSTORE  # use 'lb://' to look in Eureka
+          predicates:
+            - Path=/api/order/**
+          filters:
+            - StripPrefix=1
+        # PRODUCT
+        - id: product-service
+          uri: lb://MYSTORE  # use 'lb://' to look in Eureka
+          predicates:
+            - Path=/api/product/**
+          filters:
+            - StripPrefix=1   
+        # CUSTOMER  
+        - id: customer-service
+          uri: lb://MYSTORE  # use 'lb://' to look in Eureka
+          predicates:
+            - Path=/api/customer/**
+          filters:
+            - StripPrefix=1
