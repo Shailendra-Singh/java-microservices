@@ -1,0 +1,13 @@
+package me.shail.myboutique_commons;
+
+import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.context.SpringBootTest;
+
+@SpringBootTest
+class MyboutiqueCommonsApplicationTests {
+
+	@Test
+	void contextLoads() {
+	}
+
+}
