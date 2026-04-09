@@ -1,10 +1,10 @@
-package me.shail.myboutique_commons;
+package me.shail.product_service;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class MyboutiqueCommonsApplicationTests {
+class ProductServiceApplicationTests {
 
 	@Test
 	void contextLoads() {
