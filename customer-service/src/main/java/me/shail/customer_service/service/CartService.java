@@ -15,7 +15,7 @@ import me.shail.customer_service.model.Customer;
 import me.shail.customer_service.repository.CartRepository;
 import me.shail.customer_service.repository.CustomerRepository;
 import me.shail.myboutique_commons.dto.CartDto;
-// import me.shail.myboutique_commons.dto.OrderDto;
+import me.shail.myboutique_commons.dto.OrderDto;
 
 @RequiredArgsConstructor
 @Slf4j
@@ -25,7 +25,7 @@ import me.shail.myboutique_commons.dto.CartDto;
 public class CartService {
     private final CartRepository cartRepository;
     private final CustomerRepository customerRepository;
-    // private final OrderService orderService;
+    private final OrderServiceClient orderServiceClient;
 
     public List<CartDto> findAll() {
         log.debug("Request to get all Carts");
@@ -48,9 +48,8 @@ public class CartService {
                     .orElseThrow(() -> new IllegalStateException("Customer doesn't exist!"));
 
             Cart cart = new Cart(null, customer, CartStatus.NEW);
-            // TODO: review later
-            // OrderDto order = this.orderService.create(cart.getId());
-            // cart.setOrderId(order.id());
+            OrderDto order = this.orderServiceClient.create(mapToDto(cart));
+            cart.setOrderId(order.id());
 
             return mapToDto(this.cartRepository.save(cart));
         } else {
