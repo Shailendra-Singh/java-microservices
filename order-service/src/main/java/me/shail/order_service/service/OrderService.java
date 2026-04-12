@@ -20,7 +20,7 @@ import me.shail.order_service.repository.OrderRepository;
 @AllArgsConstructor
 @Service
 @Transactional
-@CircuitBreaker(name = "order-service")
+@CircuitBreaker(name = "order-service-resilience")
 public class OrderService {
 
     private final OrderRepository orderRepository;

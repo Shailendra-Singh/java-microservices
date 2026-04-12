@@ -21,7 +21,7 @@ import me.shail.myboutique_commons.dto.OrderDto;
 @Slf4j
 @Service
 @Transactional
-@CircuitBreaker(name = "cart-service")
+@CircuitBreaker(name = "cart-service-resilience")
 public class CartService {
     private final CartRepository cartRepository;
     private final CustomerRepository customerRepository;

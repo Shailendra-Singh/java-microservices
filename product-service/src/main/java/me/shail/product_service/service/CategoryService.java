@@ -18,7 +18,7 @@ import me.shail.product_service.repository.CategoryRepository;
 @Slf4j
 @Service
 @Transactional
-@CircuitBreaker(name = "category-service")
+@CircuitBreaker(name = "category-service-resilience")
 public class CategoryService {
     private final CategoryRepository categoryRepository;
 

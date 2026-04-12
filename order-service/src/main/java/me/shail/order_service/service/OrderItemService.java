@@ -18,7 +18,7 @@ import me.shail.order_service.repository.OrderRepository;
 @Slf4j
 @Service
 @Transactional
-@CircuitBreaker(name = "orderitem-service")
+@CircuitBreaker(name = "orderitem-service-resilience")
 public class OrderItemService {
     private final OrderItemRepository orderItemRepository;
     private final OrderRepository orderRepository;

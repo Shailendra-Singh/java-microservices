@@ -19,22 +19,16 @@ spring:
       routes: 
         # ORDER
         - id: order-service
-          uri: lb://MYSTORE  # use 'lb://' to look in Eureka
+          uri: lb://order-service  # use 'lb://' to look in Eureka
           predicates:
-            - Path=/api/order/**
-          filters:
-            - StripPrefix=1
+            - Path=/api/orders/**, /api/order-items/**, /api/payments/**
         # PRODUCT
         - id: product-service
-          uri: lb://MYSTORE  # use 'lb://' to look in Eureka
+          uri: lb://product-service  # use 'lb://' to look in Eureka
           predicates:
-            - Path=/api/product/**
-          filters:
-            - StripPrefix=1   
+            - Path=/api/products/**, /api/categories/**, /api/reviews/**
         # CUSTOMER  
         - id: customer-service
-          uri: lb://MYSTORE  # use 'lb://' to look in Eureka
+          uri: lb://customer-service  # use 'lb://' to look in Eureka
           predicates:
-            - Path=/api/customer/**
-          filters:
-            - StripPrefix=1
+            - Path=/api/customers/**, /api/carts/**

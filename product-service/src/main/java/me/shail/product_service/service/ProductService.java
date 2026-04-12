@@ -20,7 +20,7 @@ import me.shail.product_service.repository.ProductRepository;
 @AllArgsConstructor
 @Service
 @Transactional
-@CircuitBreaker(name = "product-service")
+@CircuitBreaker(name = "product-service-resilience")
 public class ProductService {
 
     private final ProductRepository productRepository;

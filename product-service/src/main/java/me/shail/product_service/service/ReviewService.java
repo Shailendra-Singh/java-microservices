@@ -16,7 +16,7 @@ import me.shail.product_service.repository.ReviewRepository;
 @AllArgsConstructor
 @Service
 @Transactional
-@CircuitBreaker(name = "review-service")
+@CircuitBreaker(name = "review-service-resilience")
 public class ReviewService {
 
     private final ReviewRepository reviewRepository;

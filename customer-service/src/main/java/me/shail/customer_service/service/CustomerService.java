@@ -18,7 +18,7 @@ import me.shail.myboutique_commons.dto.CustomerDto;
 @RequiredArgsConstructor
 @Service
 @Transactional
-@CircuitBreaker(name = "customer-service")
+@CircuitBreaker(name = "customer-service-resilience")
 public class CustomerService {
     private final CustomerRepository customerRepository;
 
