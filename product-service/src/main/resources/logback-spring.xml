@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <springProperty scope="context" name="appName" source="spring.application.name"/>
+    <springProperty scope="context" name="logstashHost" source="logstash.host" defaultValue="localhost"/>
+    <springProperty scope="context" name="logstashPort" source="logstash.port" defaultValue="5044"/>
+    <springProperty scope="context" name="logstashQueueSize" source="logstash.queue-size" defaultValue="512"/>
+
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss} [%thread] %-5level %logger{36} - %msg%n</pattern>
+        </encoder>
+    </appender>
+
+    <appender name="LOGSTASH" class="net.logstash.logback.appender.LogstashTcpSocketAppender">
+        <destination>${logstashHost}:${logstashPort}</destination>
+        <encoder class="net.logstash.logback.encoder.LogstashEncoder">
+            <customFields>{"servicename":"${appName}"}</customFields>
+            <throwableConverter class="net.logstash.logback.stacktrace.ShortenedThrowableConverter">
+                <rootCauseFirst>true</rootCauseFirst>
+            </throwableConverter>
+        </encoder>
+    </appender>
+
+    <appender name="ASYNC_LOGSTASH" class="ch.qos.logback.classic.AsyncAppender">
+        <queueSize>${logstashQueueSize}</queueSize>
+        <appender-ref ref="LOGSTASH" />
+    </appender>
+
+    <root level="INFO">
+        <appender-ref ref="CONSOLE" />
+        <appender-ref ref="ASYNC_LOGSTASH" />
+    </root>
+</configuration>

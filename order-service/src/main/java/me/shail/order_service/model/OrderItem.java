@@ -1,0 +1,29 @@
+package me.shail.order_service.model;
+
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotNull;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.NoArgsConstructor;
+import me.shail.myboutique_commons.domain.AbstractEntity;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@EqualsAndHashCode(callSuper = false)
+@Entity
+@Table(name = "order_item")
+public class OrderItem extends AbstractEntity {
+    @NotNull
+    @Column(name = "quantity", nullable = false)
+    private Long quantity;
+
+    private Long productId;
+
+    @ManyToOne
+    private Order order;
+}

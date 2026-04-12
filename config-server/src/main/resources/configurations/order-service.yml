@@ -1,0 +1,32 @@
+server:
+  port: 9991
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health, info, circuitbreakers, metrics
+  endpoint:
+    health:
+      show-details: always
+  
+logstash:
+  host: localhost
+  port: 5044
+  queue-size: 512
+
+resilience4j:
+  circuitbreaker:
+    instances:
+      externalService:
+        registerHealthIndicator: true
+        slidingWindowSize: 10
+        permittedNumberOfCallsInHalfOpenState: 3
+        slidingWindowType: COUNT_BASED
+        minimumNumberOfCalls: 5
+        waitDurationInOpenState: 5s
+        failureRateThreshold: 50
+        eventConsumerBufferSize: 10
+    circuitBreakerAspectOrder: 1
+  retry:
+    retryAspectOrder: 2
