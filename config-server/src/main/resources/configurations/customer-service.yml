@@ -1,2 +1,22 @@
 server:
   port: 9992
+
+resilience4j:
+  circuitbreaker:
+    configs:
+      # This creates a local 'template' for product-service
+      customer-service-defaults:
+        baseConfig: global-shared-config # Inherit from the global application.yml
+        slidingWindowSize: 10
+        permittedNumberOfCallsInHalfOpenState: 3
+        eventConsumerBufferSize: 10
+    
+    instances:
+      cart-service-resilience:
+        baseConfig: customer-service-defaults # Inherit from the local template
+        failureRateThreshold: 30
+        
+      customer-service-resilience:
+        baseConfig: customer-service-defaults
+        failureRateThreshold: 50
+        
