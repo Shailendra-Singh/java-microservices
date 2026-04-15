@@ -1,34 +1,55 @@
 server:
   port: 8222
 
+management:
+  endpoint:
+    gateway:
+      enabled: true # Explicitly enable the gateway endpoint
+  endpoints:
+    web:
+      exposure:
+        include: gateway
+
 springdoc:
+  show-actuator: true
   swagger-ui:
+    enabled: true
+    # This enables the "Select a definition" dropdown
     urls:
       - name: Order Service
-        url: /api/orders/v3/api-docs
+        url: /v3/api-docs/order-service
       - name: Product Service
-        url: /api/products/v3/api-docs
+        url: /v3/api-docs/product-service
       - name: Customer Service
-        url: /api/customer/v3/api-docs
+        url: /v3/api-docs/customer-service
+      - name: Gateway actuator
+        url: /v3/api-docs
     # Ensures the UI is accessible at /swagger-ui.html
     path: /swagger-ui.html
 
 spring:
   cloud:
     gateway:
-      routes: 
-        # ORDER
-        - id: order-service
-          uri: lb://order-service  # use 'lb://' to look in Eureka
-          predicates:
-            - Path=/api/orders/**, /api/order-items/**, /api/payments/**
-        # PRODUCT
-        - id: product-service
-          uri: lb://product-service  # use 'lb://' to look in Eureka
-          predicates:
-            - Path=/api/products/**, /api/categories/**, /api/reviews/**
-        # CUSTOMER  
-        - id: customer-service
-          uri: lb://customer-service  # use 'lb://' to look in Eureka
-          predicates:
-            - Path=/api/customers/**, /api/carts/**
+      server:
+        webflux:
+          default-filters:
+            - name: RewritePath
+              args:
+                regexp: '/v3/api-docs/(?<path>.*)'
+                replacement: '/v3/api-docs'
+          routes: 
+            # PRODUCT
+            - id: product-service
+              uri: lb://product-service  # use 'lb://' to look in Eureka
+              predicates:
+                - Path=/api/products/**,/api/categories/**,/api/reviews/**,/v3/api-docs/product-service
+            # ORDER
+            - id: order-service
+              uri: lb://order-service  # use 'lb://' to look in Eureka
+              predicates:
+                - Path=/api/orders/**,/api/order-items/**,/api/payments/**,/v3/api-docs/order-service
+            # CUSTOMER  
+            - id: customer-service
+              uri: lb://customer-service  # use 'lb://' to look in Eureka
+              predicates:
+                - Path=/api/customers/**,/api/carts/**,/v3/api-docs/customer-service

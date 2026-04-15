@@ -15,6 +15,7 @@
         <destination>${logstashHost}:${logstashPort}</destination>
         <encoder class="net.logstash.logback.encoder.LogstashEncoder">
             <customFields>{"servicename":"${appName}"}</customFields>
+            <includeMdc>true</includeMdc>
             <throwableConverter class="net.logstash.logback.stacktrace.ShortenedThrowableConverter">
                 <rootCauseFirst>true</rootCauseFirst>
             </throwableConverter>

@@ -4,9 +4,46 @@ eureka:
   client:
     service-url:
       defaultZone: http://localhost:8761/eureka/
-name:
-  value: check
+
 spring:
   cloud:
     config:
       override-system-properties: false
+
+# ----------------------------------------------------------------------------------------
+# Common properties for all applications
+
+springdoc:
+  # 1. Disable the HTML UI page on this specific service
+  swagger-ui:
+    enabled: false
+  # 2. Keep the JSON docs enabled so Gateway can reach them
+  api-docs:
+    enabled: true
+  # 3. Optional: Restrict access to only the Gateway (set a @Bean to restrict within application)
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health, info, circuitbreakers, metrics, refresh
+  endpoint:
+    health:
+      show-details: always
+  
+logstash:
+  host: localhost
+  port: 5044
+  queue-size: 512
+
+resilience4j:
+  circuitbreaker:
+    configs:
+        global-shared-config:
+          registerHealthIndicator: true
+          slidingWindowType: COUNT_BASED
+          minimumNumberOfCalls: 5
+          waitDurationInOpenState: 5s
+    circuitBreakerAspectOrder: 1
+  retry:
+    retryAspectOrder: 2
