@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>4.0.5</version>
+		<version>4.0.6</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>me.shail</groupId>
@@ -97,6 +97,18 @@
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
+			</plugin>
+			<plugin>
+    			<groupId>com.google.cloud.tools</groupId>
+    			<artifactId>jib-maven-plugin</artifactId>
+    			<configuration>
+					<from>
+						<image>registry.access.redhat.com/ubi9/openjdk-25:latest</image>
+					</from>
+					<to>
+						<image>${container.registry.url}/${container.registry.org}/${project.artifactId}:${project.version}</image>
+					</to>
+    			</configuration>
 			</plugin>
 		</plugins>
 	</build>
