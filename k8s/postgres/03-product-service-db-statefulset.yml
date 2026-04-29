@@ -1,0 +1,72 @@
+# 1. The Headless Service (Required for StatefulSet network identity)
+apiVersion: v1
+kind: Service
+metadata:
+  name: postgres-product-service-headless
+  namespace: my-boutique
+  labels:
+    app: postgres-product-service
+spec:
+  ports:
+  - port: 5432
+    name: postgres
+  clusterIP: None
+  selector:
+    app: postgres-product-service
+---
+# 2. The StatefulSet
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: postgres-product-service
+  namespace: my-boutique
+spec:
+  serviceName: "postgres-product-service-headless"
+  replicas: 1
+  selector:
+    matchLabels:
+      app: postgres-product-service
+  template:
+    metadata:
+      labels:
+        app: postgres-product-service
+    spec:
+      containers:
+      - name: postgres-product-service
+        image: postgres:16
+        ports:
+        - containerPort: 5432
+        env:
+          - name: POSTGRES_DB_FILE
+            value: "/etc/postgres/config/DB_NAME"
+          - name: POSTGRES_USER_FILE
+            value: "/etc/postgres/creds/USER_NAME"
+          - name: POSTGRES_PASSWORD_FILE
+            value: "/etc/postgres/creds/USER_PASSWORD"
+          - name: PGDATA
+            value: /var/lib/postgresql/data/pgdata
+        volumeMounts:
+        - name: postgres-data
+          mountPath: /var/lib/postgresql/data
+        - name: db-config
+          mountPath: "/etc/postgres/config"
+          readOnly: true
+        - name: db-creds
+          mountPath: "/etc/postgres/creds"
+          readOnly: true
+      volumes:
+      - name: db-config
+        configMap:
+          name: product-service-db-config # Your ConfigMap name
+      - name: db-creds
+        secret:
+          secretName: product-service-db-secrets # Your Secret name
+  # 3. The PVC Template
+  volumeClaimTemplates:
+  - metadata:
+      name: postgres-data
+    spec:
+      accessModes: [ "ReadWriteOnce" ]
+      resources:
+        requests:
+          storage: 1Gi
