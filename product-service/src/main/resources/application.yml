@@ -9,8 +9,11 @@ spring:
         sources:
           - "kubernetes:common-application-config"
           - "kubernetes:${spring.application.name}-config"
+          - "kubernetes:product-service-db-config"
       reload:
         enabled: true
         mode: polling
         period: 15000 # Checks for changes every 15s
+  datasource:
+    url: jdbc:postgresql://postgres-product-service-headless:5432/${DB_NAME}
       

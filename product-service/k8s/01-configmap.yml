@@ -7,7 +7,19 @@ metadata:
 data:
   product-service.yml: |
     # ----------------------------------------------------------------------------------------
-    # Specific resilience4j overrides for product-service
+    # Postgres
+    spring:
+      datasource:
+        driver-class-name: org.postgresql.Driver
+      jpa:
+        hibernate:
+          # 'update' is standard for dev; 'validate' is standard for prod
+          ddl-auto: update
+        properties:
+          hibernate:
+            dialect: org.hibernate.dialect.PostgreSQLDialect
+    # ----------------------------------------------------------------------------------------
+    # resilience4j
     resilience4j:
       circuitbreaker:
         configs:
