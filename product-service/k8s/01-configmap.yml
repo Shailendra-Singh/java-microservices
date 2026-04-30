@@ -12,6 +12,7 @@ data:
       datasource:
         driver-class-name: org.postgresql.Driver
       jpa:
+        database-platform: org.hibernate.dialect.PostgreSQLDialect
         hibernate:
           # 'update' is standard for dev; 'validate' is standard for prod
           ddl-auto: update
