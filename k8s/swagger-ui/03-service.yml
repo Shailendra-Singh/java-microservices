@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: swagger-portal        # This name MUST match what you put in your Ingress
+  namespace: my-boutique
+  labels:
+    app: swagger-portal
+spec:
+  selector:
+    app: swagger-portal       # This MUST match the labels in your Deployment
+  ports:
+    - protocol: TCP
+      port: 8080              # The port the Service listens on
+      targetPort: 8080        # The port the Container inside the Pod listens on
+  type: ClusterIP             # Internal-only IP (Ingress will handle the external part)

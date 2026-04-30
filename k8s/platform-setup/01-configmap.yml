@@ -19,7 +19,7 @@ data:
     springdoc:
       # 1. Disable the HTML UI page on this specific service
       swagger-ui:
-        enabled: true #TODO: set to false
+        enabled: false
       # 2. Keep the JSON docs enabled so Gateway can reach them
       api-docs:
         enabled: true

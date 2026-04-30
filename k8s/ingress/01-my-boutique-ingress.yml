@@ -1,0 +1,51 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: boutique-ingress
+  namespace: my-boutique
+  annotations:
+    # This ensures the trailing slashes and paths are handled correctly
+    nginx.ingress.kubernetes.io/use-regex: "true"
+    # This captures the part after /v3/api-docs/ and throws it away,
+    # sending only /v3/api-docs to the actual pod.
+    nginx.ingress.kubernetes.io/rewrite-target: /v3/api-docs
+spec:
+  ingressClassName: nginx
+  rules:
+  - http:
+      paths:
+        # --- PRODUCT SERVICE ---
+        - path: /api/(products|categories|reviews)|/v3/api-docs/product-service
+          pathType: ImplementationSpecific
+          backend:
+            service:
+              name: product-service
+              port:
+                number: 8080
+
+        # --- ORDER SERVICE ---
+        - path: /api/(orders|order-items|payments)|/v3/api-docs/order-service
+          pathType: ImplementationSpecific
+          backend:
+            service:
+              name: order-service
+              port:
+                number: 8080
+
+        # --- CUSTOMER SERVICE ---
+        - path: /api/(customers|carts)|/v3/api-docs/customer-service
+          pathType: ImplementationSpecific
+          backend:
+            service:
+              name: customer-service
+              port:
+                number: 8080
+
+        # --- SWAGGER PORTAL (The Standalone Pod) ---
+        - path: /docs(/|$)
+          pathType: ImplementationSpecific
+          backend:
+            service:
+              name: swagger-portal
+              port:
+                number: 8080

@@ -3,6 +3,8 @@ kind: Service
 metadata:
   name: order-service
   namespace: my-boutique
+  labels:
+    app: order-service
 spec:
   selector:
     app: order-service # Must match the label in the Deployment template
