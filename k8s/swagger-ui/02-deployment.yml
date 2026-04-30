@@ -27,3 +27,5 @@ spec:
                 key: urls.json 
           - name: BASE_URL
             value: /docs
+        ports:
+          - containerPort: 8080

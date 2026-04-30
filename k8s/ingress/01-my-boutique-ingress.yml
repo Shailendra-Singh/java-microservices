@@ -6,16 +6,19 @@ metadata:
   annotations:
     # This ensures the trailing slashes and paths are handled correctly
     nginx.ingress.kubernetes.io/use-regex: "true"
-    # This captures the part after /v3/api-docs/ and throws it away,
-    # sending only /v3/api-docs to the actual pod.
-    nginx.ingress.kubernetes.io/rewrite-target: /v3/api-docs
+    nginx.ingress.kubernetes.io/enable-cors: "true"
+    # Allow the specific origin where your Swagger UI is hosted
+    nginx.ingress.kubernetes.io/cors-allow-origin: "*" 
+    nginx.ingress.kubernetes.io/cors-allow-methods: "GET, PUT, POST, DELETE, PATCH, OPTIONS"
+    nginx.ingress.kubernetes.io/cors-allow-headers: "DNT,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Range,Authorization"
+    nginx.ingress.kubernetes.io/cors-expose-headers: "Content-Length,Content-Range"
 spec:
   ingressClassName: nginx
   rules:
   - http:
       paths:
         # --- PRODUCT SERVICE ---
-        - path: /api/(products|categories|reviews)|/v3/api-docs/product-service
+        - path: /api/(products|categories|reviews)
           pathType: ImplementationSpecific
           backend:
             service:
@@ -24,7 +27,7 @@ spec:
                 number: 8080
 
         # --- ORDER SERVICE ---
-        - path: /api/(orders|order-items|payments)|/v3/api-docs/order-service
+        - path: /api/(orders|order-items|payments)
           pathType: ImplementationSpecific
           backend:
             service:
@@ -33,7 +36,7 @@ spec:
                 number: 8080
 
         # --- CUSTOMER SERVICE ---
-        - path: /api/(customers|carts)|/v3/api-docs/customer-service
+        - path: /api/(customers|carts)
           pathType: ImplementationSpecific
           backend:
             service:
@@ -42,7 +45,7 @@ spec:
                 number: 8080
 
         # --- SWAGGER PORTAL (The Standalone Pod) ---
-        - path: /docs(/|$)
+        - path: /docs(/|$)(.*)
           pathType: ImplementationSpecific
           backend:
             service:
