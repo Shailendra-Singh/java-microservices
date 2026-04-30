@@ -1,6 +1,16 @@
 spring:
   application:
     name: product-service
-  config:
-      import: "optional:configserver:http://localhost:8888"
-
+  cloud:
+    kubernetes:
+      config:
+        enabled: true
+        name: order-service-config
+        sources:
+          - "kubernetes:common-application-config"
+          - "kubernetes:${spring.application.name}-config"
+      reload:
+        enabled: true
+        mode: polling
+        period: 15000 # Checks for changes every 15s
+      

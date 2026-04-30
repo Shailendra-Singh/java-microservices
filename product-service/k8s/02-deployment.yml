@@ -1,0 +1,52 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: product-service
+  namespace: my-boutique
+  labels:
+    app: product-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: product-service
+  template:
+    metadata:
+      labels:
+        app: product-service
+    spec:
+      containers:
+      - name: product-service
+        # Built via Jib
+        image: docker.io/podsharbor/product-service:0.1.0
+        ports:
+        - containerPort: 8080
+        
+        # Resource Limits: Crucial for Java 25 performance
+        resources:
+          requests:
+            memory: "512Mi"
+            cpu: "500m"
+          limits:
+            memory: "1Gi"
+            cpu: "1000m"
+
+        # Liveness: Is the JVM alive? If not, K8s restarts the Pod.
+        livenessProbe:
+          httpGet:
+            path: /actuator/health/liveness
+            port: 8080
+          initialDelaySeconds: 20
+          periodSeconds: 10
+        
+        # Readiness: Is the app ready for traffic (DB connected, etc)?
+        readinessProbe:
+          httpGet:
+            path: /actuator/health/readiness
+            port: 8080
+          initialDelaySeconds: 10
+          periodSeconds: 5
+
+        env:
+        - name: SPRING_PROFILES_ACTIVE
+          value: "prod"
