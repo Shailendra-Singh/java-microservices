@@ -32,12 +32,16 @@ data:
       endpoint:
         health:
           show-details: always
+      tracing:
+        enabled: true           # Ensure tracing is explicitly enabled
+        sampling:
+          probability: 1.0
+        brave:
+          propagation:
+            type: b3            # Matches your Brave dependency perfectly
       zipkin:
         tracing:
           endpoint: http://zipkin:9411/api/v2/spans
-      tracing:
-        sampling:
-          probability: 1.0
 
     resilience4j:
       circuitbreaker:
