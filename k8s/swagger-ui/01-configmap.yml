@@ -7,15 +7,15 @@ data:
   urls.json: |
     [
       {
-          "url": "/v3/api-docs/product-service",
-          "name": "Product Service"
+        "url": "/docs/products/v3/api-docs",
+        "name": "Product Service"
       },
       {
-          "url": "/v3/api-docs/order-service",
-          "name": "Order Service"
+        "url": "/docs/orders/v3/api-docs",
+        "name": "Order Service"
       },
       {
-          "url": "/v3/api-docs/customer-service",
-          "name": "Customer Service"
+        "url": "/docs/customers/v3/api-docs",
+        "name": "Customer Service"
       }
     ]
