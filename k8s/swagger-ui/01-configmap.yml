@@ -1,0 +1,21 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: swagger-ui-config
+  namespace: my-boutique
+data:
+  urls.json: |
+    [
+      {
+        "url": "/docs/products/v3/api-docs",
+        "name": "Product Service"
+      },
+      {
+        "url": "/docs/orders/v3/api-docs",
+        "name": "Order Service"
+      },
+      {
+        "url": "/docs/customers/v3/api-docs",
+        "name": "Customer Service"
+      }
+    ]

@@ -1,0 +1,58 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: boutique-ingress
+  namespace: my-boutique
+  annotations:
+    # This ensures the trailing slashes and paths are handled correctly
+    nginx.ingress.kubernetes.io/use-regex: "true"
+    nginx.ingress.kubernetes.io/enable-cors: "true"
+    # Allow the specific origin where your Swagger UI is hosted
+    nginx.ingress.kubernetes.io/cors-allow-origin: "*" 
+    nginx.ingress.kubernetes.io/cors-allow-methods: "GET, PUT, POST, DELETE, PATCH, OPTIONS"
+    nginx.ingress.kubernetes.io/cors-allow-headers: "DNT,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Range,Authorization"
+    nginx.ingress.kubernetes.io/cors-expose-headers: "Content-Length,Content-Range"
+
+    nginx.ingress.kubernetes.io/x-forwarded-for: $proxy_add_x_forwarded_for
+    nginx.ingress.kubernetes.io/x-forwarded-host: $host
+    nginx.ingress.kubernetes.io/x-forwarded-proto: $scheme
+spec:
+  ingressClassName: nginx
+  rules:
+  - http:
+      paths:
+        # --- PRODUCT SERVICE ---
+        - path: /api/(products|categories|reviews)
+          pathType: ImplementationSpecific
+          backend:
+            service:
+              name: product-service
+              port:
+                number: 8080
+
+        # --- ORDER SERVICE ---
+        - path: /api/(orders|order-items|payments)
+          pathType: ImplementationSpecific
+          backend:
+            service:
+              name: order-service
+              port:
+                number: 8080
+
+        # --- CUSTOMER SERVICE ---
+        - path: /api/(customers|carts)
+          pathType: ImplementationSpecific
+          backend:
+            service:
+              name: customer-service
+              port:
+                number: 8080
+
+        # --- SWAGGER PORTAL (The Standalone Pod) ---
+        - path: /docs(/|$)(.*)
+          pathType: ImplementationSpecific
+          backend:
+            service:
+              name: swagger-portal
+              port:
+                number: 8080

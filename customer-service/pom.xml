@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>me.shail</groupId>
 	<artifactId>customer-service</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>0.1.0</version>
 	<name>customer-service</name>
 	<description/>
 	<url/>
@@ -32,8 +32,9 @@
 	</properties>
 	<dependencies>
 		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-h2console</artifactId>
+			<groupId>org.postgresql</groupId>
+			<artifactId>postgresql</artifactId>
+			<scope>runtime</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -56,6 +57,10 @@
 			<artifactId>spring-boot-starter-zipkin</artifactId>
 		</dependency>
 		<dependency>
+			<groupId>io.zipkin.reporter2</groupId>
+			<artifactId>zipkin-reporter-brave</artifactId>
+		</dependency>
+		<dependency>
 			<groupId>io.micrometer</groupId>
 			<artifactId>micrometer-tracing-bridge-brave</artifactId>
 		</dependency>
@@ -64,22 +69,9 @@
 			<artifactId>spring-cloud-starter-circuitbreaker-resilience4j</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>org.springframework.cloud</groupId>
-			<artifactId>spring-cloud-starter-config</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.cloud</groupId>
-			<artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
-		</dependency>
-		<dependency>
     		<groupId>org.springdoc</groupId>
     		<artifactId>springdoc-openapi-starter-webmvc-ui</artifactId>
     		<version>3.0.2</version> 
-		</dependency>
-		<dependency>
-			<groupId>com.h2database</groupId>
-			<artifactId>h2</artifactId>
-			<scope>runtime</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.projectlombok</groupId>
@@ -192,7 +184,8 @@
     			<artifactId>jib-maven-plugin</artifactId>
     			<configuration>
 					<from>
-						<image>registry.access.redhat.com/ubi9/openjdk-25:latest</image>
+						<!-- <image>registry.access.redhat.com/ubi9/openjdk-25:latest</image> -->
+						<image>eclipse-temurin:25-jre-alpine</image>
 					</from>
 					<to>
 						<image>${container.registry.url}/${container.registry.org}/${project.artifactId}:${project.version}</image>

@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: swagger-portal
+  namespace: my-boutique
+  labels:
+    app: swagger-portal
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: swagger-portal
+  template:
+    metadata:
+      labels:
+        app: swagger-portal
+    spec:
+      containers:
+      - name: swagger-ui
+        image: swaggerapi/swagger-ui:latest
+        env:
+          # Tell Swagger UI to load the list of URLs from this specific file path
+          - name: URLS
+            valueFrom:
+              configMapKeyRef:
+                name: swagger-ui-config
+                key: urls.json 
+          - name: BASE_URL
+            value: /docs
+        ports:
+          - containerPort: 8080

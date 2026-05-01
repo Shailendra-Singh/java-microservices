@@ -1,0 +1,45 @@
+# Product Service - DB Config Map
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: product-service-config
+  namespace: my-boutique
+data:
+  product-service.yml: |
+    # ----------------------------------------------------------------------------------------
+    # Postgres
+    spring:
+      datasource:
+        driver-class-name: org.postgresql.Driver
+      jpa:
+        database-platform: org.hibernate.dialect.PostgreSQLDialect
+        hibernate:
+          # 'update' is standard for dev; 'validate' is standard for prod
+          ddl-auto: update
+        properties:
+          hibernate:
+            dialect: org.hibernate.dialect.PostgreSQLDialect
+    # ----------------------------------------------------------------------------------------
+    # resilience4j
+    resilience4j:
+      circuitbreaker:
+        configs:
+          # This creates a local 'template' for product-service
+          product-service-defaults:
+            baseConfig: global-shared-config # Inherit from the global application.yml
+            slidingWindowSize: 10
+            permittedNumberOfCallsInHalfOpenState: 3
+            eventConsumerBufferSize: 10
+        
+        instances:
+          review-service-resilience:
+            baseConfig: product-service-defaults # Inherit from the local template
+            failureRateThreshold: 30
+            
+          product-service-resilience:
+            baseConfig: product-service-defaults
+            failureRateThreshold: 50
+            
+          category-service-resilience:
+            baseConfig: product-service-defaults
+            failureRateThreshold: 60

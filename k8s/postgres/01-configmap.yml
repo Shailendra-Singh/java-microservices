@@ -1,0 +1,29 @@
+# Product Service - DB Config Map
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: product-service-db-config
+  namespace: my-boutique
+data:
+  DB_NAME: products_db
+  LOG_LEVEL: DEBUG
+---
+# Order Service - DB Config Map
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: order-service-db-config
+  namespace: my-boutique
+data:
+  DB_NAME: orders_db
+  LOG_LEVEL: DEBUG
+---
+# Customer Service - DB Config Map
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: customer-service-db-config
+  namespace: my-boutique
+data:
+  DB_NAME: customers_db
+  LOG_LEVEL: DEBUG

@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: customer-service
+  namespace: my-boutique
+  labels:
+    app: customer-service
+spec:
+  selector:
+    app: customer-service # Must match the label in the Deployment template
+  ports:
+    - protocol: TCP
+      port: 80          # The port other services use
+      targetPort: 8080  # The port at which the Spring Boot app is listening on
+  type: ClusterIP       # Use ClusterIP for internal-only microservices

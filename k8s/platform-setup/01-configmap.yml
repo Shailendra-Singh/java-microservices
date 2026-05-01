@@ -1,0 +1,56 @@
+# Product Service - DB Config Map
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: common-application-config
+  namespace: my-boutique
+data:
+  application.yml: |
+    # ----------------------------------------------------------------------------------------
+    # Common properties for all applications
+    server:
+      port: 8080
+      shutdown: graceful
+
+    spring:
+      lifecycle:
+        timeout-per-shutdown-phase: 30s
+
+    springdoc:
+      # 1. Disable the HTML UI page on this specific service
+      swagger-ui:
+        enabled: false
+      # 2. Keep the JSON docs enabled so Gateway can reach them
+      api-docs:
+        enabled: true
+
+    management:
+      endpoints:
+        web:
+          exposure:
+            include: health, info, circuitbreakers, metrics, refresh
+      endpoint:
+        health:
+          show-details: always
+      tracing:
+        enabled: true           # Ensure tracing is explicitly enabled
+        sampling:
+          probability: 1.0
+        brave:
+          propagation:
+            type: b3            # Matches your Brave dependency perfectly
+      zipkin:
+        tracing:
+          endpoint: http://zipkin:9411/api/v2/spans
+
+    resilience4j:
+      circuitbreaker:
+        configs:
+            global-shared-config:
+              registerHealthIndicator: true
+              slidingWindowType: COUNT_BASED
+              minimumNumberOfCalls: 5
+              waitDurationInOpenState: 5s
+        circuitBreakerAspectOrder: 1
+      retry:
+        retryAspectOrder: 2

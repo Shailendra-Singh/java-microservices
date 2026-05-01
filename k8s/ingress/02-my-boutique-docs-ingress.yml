@@ -1,0 +1,49 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: boutique-docs-ingress
+  namespace: my-boutique
+  annotations:
+    # This ensures the trailing slashes and paths are handled correctly
+    nginx.ingress.kubernetes.io/use-regex: "true"
+    # This captures the part after /v3/api-docs/ and throws it away,
+    # sending only /v3/api-docs to the actual pod.
+    nginx.ingress.kubernetes.io/rewrite-target: /$1
+    # Allow the specific origin where your Swagger UI is hosted
+    nginx.ingress.kubernetes.io/cors-allow-origin: "*" 
+    nginx.ingress.kubernetes.io/cors-allow-methods: "GET, PUT, POST, DELETE, PATCH, OPTIONS"
+    nginx.ingress.kubernetes.io/cors-allow-headers: "DNT,Keep-Alive,User-Agent,X-Requested-With,If-Modified-Since,Cache-Control,Content-Type,Range,Authorization"
+    nginx.ingress.kubernetes.io/cors-expose-headers: "Content-Length,Content-Range"
+
+    nginx.ingress.kubernetes.io/x-forwarded-for: $proxy_add_x_forwarded_for
+    nginx.ingress.kubernetes.io/x-forwarded-host: $host
+    nginx.ingress.kubernetes.io/x-forwarded-proto: $scheme
+spec:
+  ingressClassName: nginx
+  rules:
+  - http:
+      paths:
+        # --- PRODUCT SERVICE ---
+        - path: /docs/products/(.*)
+          pathType: ImplementationSpecific
+          backend:
+            service:
+              name: product-service
+              port:
+                number: 8080
+        # --- ORDER SERVICE ---
+        - path: /docs/orders/(.*)
+          pathType: ImplementationSpecific
+          backend:
+            service:
+              name: order-service
+              port:
+                number: 8080
+        # --- CUSTOMER SERVICE ---
+        - path: /docs/customers/(.*)
+          pathType: ImplementationSpecific
+          backend:
+            service:
+              name: customer-service
+              port:
+                number: 8080

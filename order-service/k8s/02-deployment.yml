@@ -1,0 +1,100 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: order-service
+  namespace: my-boutique
+  labels:
+    app: order-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: order-service
+  template:
+    metadata:
+      labels:
+        app: order-service
+    spec:
+      terminationGracePeriodSeconds: 45 # Allows Spring to finish requests
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000
+      containers:
+      - name: order-service
+        # Built via Jib
+        image: docker.io/podsharbor/order-service:0.1.0
+        # imagePullPolicy: Always
+        ports:
+        - containerPort: 8080
+        
+        # Resource Limits: Crucial for Java 25 performance
+        resources:
+          requests:
+            memory: "512Mi"
+            cpu: "500m"
+          limits:
+            memory: "1Gi"
+            cpu: "1000m"
+        
+        # Startup Probe: handles the heavy lifting of the initial boot
+        startupProbe:
+          httpGet:
+            path: /actuator/health/liveness
+            port: 8080
+          failureThreshold: 30
+          periodSeconds: 10
+
+        # Liveness: Is the JVM alive? If not, K8s restarts the Pod.
+        livenessProbe:
+          httpGet:
+            path: /actuator/health/liveness
+            port: 8080
+          initialDelaySeconds: 20
+          periodSeconds: 10
+        
+        # Readiness: Is the app ready for traffic (DB connected, etc)?
+        readinessProbe:
+          httpGet:
+            path: /actuator/health/readiness
+            port: 8080
+          initialDelaySeconds: 10
+          periodSeconds: 5
+
+        env:
+          - name: SPRING_PROFILES_ACTIVE
+            value: "prod"
+          - name: SPRING_CLOUD_KUBERNETES_CONFIG_FAIL_FAST
+            value: "true"
+          - name: SPRING_CONFIG_IMPORT
+            value: "file:/config/global/application.yml,file:/config/app/order-service.yml"
+          - name: POSTGRES_DB_NAME
+            valueFrom:
+              configMapKeyRef:
+                name: order-service-db-config 
+                key: DB_NAME 
+          - name: SPRING_DATASOURCE_USERNAME
+            valueFrom:
+              secretKeyRef:
+                name: order-service-db-secrets
+                key: USER_NAME 
+          - name: SPRING_DATASOURCE_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: order-service-db-secrets
+                key: USER_PASSWORD
+          - name: SPRING_DATASOURCE_URL
+            value: "jdbc:postgresql://postgres-order-service-headless:5432/$(POSTGRES_DB_NAME)"
+        volumeMounts:
+          - name: global-config
+            mountPath: "/config/global"
+            readOnly: true
+          - name: app-config
+            mountPath: "/config/app"
+            readOnly: true
+      volumes:
+        - name: global-config
+          configMap:
+            name: common-application-config
+        - name: app-config
+          configMap:
+            name: order-service-config
